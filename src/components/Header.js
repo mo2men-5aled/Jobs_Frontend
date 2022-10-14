@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import GoogleAuth from "./GoogleAuth";
+import LogOut from "./logOutButton";
 
 const Header = () => {
   return (
@@ -10,7 +10,7 @@ const Header = () => {
         Main List
       </Link>
       <div className="right menu">
-        <GoogleAuth />
+        <LogOut />
       </div>
     </div>
   );

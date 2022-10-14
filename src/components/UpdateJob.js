@@ -1,4 +1,3 @@
-import { set } from "lodash";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import http from "../api/connection";
@@ -34,7 +33,7 @@ const JobUpdate = () => {
           setstatus(response.data.job.status);
         }
       });
-  }, []);
+  }, [params]);
 
   console.log(errors);
   const handleSubmit = (event) => {

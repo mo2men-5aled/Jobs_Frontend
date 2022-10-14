@@ -1,20 +1,6 @@
 import React, { useState } from "react";
 import http from "../api/connection";
 
-const NewTask = (data, props) => {
-  http
-    .post("/jobs", data, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-    .then((res) => {
-      if (res.status === 201) {
-        props.setTriggerCreate(true);
-      }
-    });
-};
-
 const AddJob = (props) => {
   const [Company, setCompany] = useState("");
   const [position, setPosition] = useState("");
@@ -22,6 +8,7 @@ const AddJob = (props) => {
 
   const [showForm, setShowForm] = useState(false);
   const [showButton, setShowButton] = useState(true);
+  const [errors, setErrors] = useState([]);
 
   //object sent to the database
   const fromValues = {
@@ -33,14 +20,25 @@ const AddJob = (props) => {
   //on form submit
   const handleSubmit = (event) => {
     event.preventDefault();
-    NewTask(fromValues, props);
+
+    http
+      .post("/jobs", fromValues, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        if (res.status === 201) {
+          props.setTriggerCreate(true);
+        } else {
+          setErrors(res.data.msg);
+        }
+      });
     setCompany("");
     setPosition("");
     setStatus("pending");
+    setErrors([]);
   };
-
-  const isValed = Company === "";
-  const [touched, setTouched] = useState(false);
 
   return (
     <div>
@@ -70,6 +68,7 @@ const AddJob = (props) => {
             </div>
             <form className="ui form" onSubmit={handleSubmit}>
               <div className="field">
+                <label>Company</label>
                 <input
                   placeholder="Company Name"
                   id="name"
@@ -77,15 +76,10 @@ const AddJob = (props) => {
                   type="text"
                   value={Company}
                   onChange={(event) => setCompany(event.target.value)}
-                  onBlur={() => {
-                    if (isValed) {
-                    } else {
-                      setTouched(true);
-                    }
-                  }}
                 />
               </div>
               <div className="field">
+                <label>Position</label>
                 <input
                   placeholder="What was your position there ?"
                   id="name"
@@ -96,6 +90,7 @@ const AddJob = (props) => {
                 />
               </div>
               <div className="field">
+                <label>Status</label>
                 <select
                   className="ui search dropdown"
                   onChange={(event) => {
@@ -107,11 +102,14 @@ const AddJob = (props) => {
                   <option value="declined">declined</option>
                 </select>
               </div>
-
-              <button
-                className={`ui basic red ${touched ? "" : "disabled"} button`}
-                type="submit"
-              >
+              {errors.length > 0 && (
+                <div className="ui red message">
+                  {errors.map((error) => {
+                    return <div key={error}>{error}</div>;
+                  })}
+                </div>
+              )}
+              <button className={`ui basic red  button`} type="submit">
                 Create
               </button>
             </form>

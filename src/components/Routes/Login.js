@@ -27,7 +27,6 @@ const LogIn = () => {
     if (response.data.user) {
       localStorage.removeItem("token");
       localStorage.setItem("token", response.data.token);
-      console.log(response.data.token);
       history.push("/");
     } else {
       setErrors(response.data.msg);

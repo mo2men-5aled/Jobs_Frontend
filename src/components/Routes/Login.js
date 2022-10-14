@@ -24,8 +24,10 @@ const LogIn = () => {
     event.preventDefault();
     const response = await http.post("/auth/login", formValues);
 
-    if (response.data.userId) {
+    if (response.data.user) {
+      localStorage.removeItem("token");
       localStorage.setItem("token", response.data.token);
+      console.log(response.data.token);
       history.push("/jobs");
     } else {
       setErrors(response.data.msg);

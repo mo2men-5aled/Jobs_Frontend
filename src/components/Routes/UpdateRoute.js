@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
-import AddTask from "../AddTask";
+import AddTask from "../AddJob";
 import TaskUpdate from "../UpdateTask";
-import ListTask from "../ListTask";
+import ListTask from "../ListJobs";
 
 const UpdateRoute = (Task) => {
   const params = useParams();

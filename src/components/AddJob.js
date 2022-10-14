@@ -2,18 +2,17 @@ import React, { useState } from "react";
 import http from "../api/connection";
 
 const NewTask = (data, props) => {
-  http.post("/", data).then((res) => {
+  http.post("/jobs", data).then((res) => {
     if (res.status === 201) {
       props.setTriggerCreate(true);
     }
   });
 };
 
-const AddTask = (props) => {
+const AddJob = (props) => {
   const [Name, setName] = useState("");
   const [description, setDesc] = useState("");
   const [status, setStatus] = useState(false);
-  const parentID = props.parentID;
 
   const [showForm, setShowForm] = useState(false);
   const [showButton, setShowButton] = useState(true);
@@ -23,8 +22,7 @@ const AddTask = (props) => {
     name: Name,
     completed: status,
     description: description,
-    parentID: parentID,
-    user_id: props.userID,
+    createdBy: props.userID,
   };
 
   //on form submit
@@ -121,4 +119,4 @@ const AddTask = (props) => {
   );
 };
 
-export default AddTask;
+export default AddJob;

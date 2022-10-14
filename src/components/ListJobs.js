@@ -7,7 +7,6 @@ const token = localStorage.getItem("token");
 
 const ListJob = (props) => {
   const [jobs, setJobs] = useState([]);
-  const taskNameRef = useRef();
 
   useEffect(() => {
     if (!props.TriggerCreate)
@@ -23,23 +22,35 @@ const ListJob = (props) => {
     if (props.setTriggerCreate !== false) props.setTriggerCreate(false);
   }, [props.TriggerCreate]);
 
-  return (
-    <div style={{ marginTop: "20px" }}>
-      {jobs.map((job) => {
-        return (
-          <div className="ui segment" key={job._id}>
-            <Link to={`/${job._id}`} className="content">
-              <span>{job.company}</span>
-              <div className="header">
-                <span>{job.position}</span>
-              </div>
-            </Link>
-            <DeleteTask JobId={job._id} {...props} />
+  if (jobs > 0) {
+    return (
+      <div style={{ marginTop: "20px" }}>
+        {jobs.map((job) => {
+          return (
+            <div className="ui segment" key={job._id}>
+              <Link to={`/${job._id}`} className="content">
+                <span>{job.company}</span>
+                <div className="header">
+                  <span>{job.position}</span>
+                </div>
+              </Link>
+              <DeleteTask JobId={job._id} {...props} />
+            </div>
+          );
+        })}
+      </div>
+    );
+  } else {
+    return (
+      <div style={{ marginTop: "20px" }}>
+        <div className="ui segment">
+          <div className="header">
+            <span>No Jobs Found</span>
           </div>
-        );
-      })}
-    </div>
-  );
+        </div>
+      </div>
+    );
+  }
 };
 
 export default ListJob;

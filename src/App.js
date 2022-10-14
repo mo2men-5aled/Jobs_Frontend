@@ -10,8 +10,8 @@ function App() {
     <div className="ui container">
       <BrowserRouter>
         <Switch>
-          <Route exact path="/auth/register" component={SignUp} />
-          <Route exact path="/auth/login" component={LogIn} />
+          <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/login" component={LogIn} />
           <Route exact path="/" component={LoginOrSignUp} />
           <Route exact path="/jobs" component={Home} />
           <Route exact path="/jobs/:id" component={UpdateRoute} />

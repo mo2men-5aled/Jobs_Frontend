@@ -13,7 +13,7 @@ const JobUpdate = () => {
 
   const [showForm, setShowForm] = useState(false);
 
-  const [errors, setErrors] = useState("");
+  const [errors, setErrors] = useState([]);
 
   useEffect(() => {
     //on page load
@@ -24,13 +24,13 @@ const JobUpdate = () => {
         },
       })
       .then((response) => {
-        if (response.data.msg) {
-          setErrors(response.data.msg);
-        } else {
+        if (response.data.job) {
           setJob(response.data.job);
           setCompany(response.data.job.company);
           setPosition(response.data.job.position);
           setstatus(response.data.job.status);
+        } else {
+          setErrors(response.data.msg);
         }
       });
   }, [params]);
@@ -47,8 +47,10 @@ const JobUpdate = () => {
         }
       )
       .then((res) => {
-        if (res.status === 200) {
+        if (!res.data.msg) {
           history.push("/");
+        } else {
+          setErrors(res.data.msg);
         }
       });
   };
@@ -112,6 +114,13 @@ const JobUpdate = () => {
                 <option value="declined">declined</option>
               </select>
             </div>
+            {errors.length > 0 && (
+              <div className="ui red message">
+                {errors.map((error) => {
+                  return <div key={error}>{error}</div>;
+                })}
+              </div>
+            )}
 
             <button className={`ui red button`} type="submit">
               Edit

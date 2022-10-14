@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import http from "../api/connection";
 import { Link } from "react-router-dom";
-import DeleteTask from "./DeleteTask";
+import DeleteJob from "./DeleteJob";
 
 const token = localStorage.getItem("token");
 
@@ -22,7 +22,7 @@ const ListJob = (props) => {
     if (props.setTriggerCreate !== false) props.setTriggerCreate(false);
   }, [props.TriggerCreate, props]);
 
-  if (jobs.length > 0) {
+  if (!jobs.length === 0) {
     return (
       <div style={{ marginTop: "20px" }}>
         {jobs.map((job) => {
@@ -35,7 +35,7 @@ const ListJob = (props) => {
                 <h4>{job.position}</h4>
               </div>
               <div className="description">{job.status}</div>
-              <DeleteTask JobId={job._id} {...props} />
+              <DeleteJob JobId={job._id} {...props} />
             </div>
           );
         })}

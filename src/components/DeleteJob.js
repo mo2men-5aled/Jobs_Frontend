@@ -2,7 +2,7 @@ import http from "../api/connection";
 const DeleteJob = (props) => {
   const token = localStorage.getItem("token");
   return (
-    <div style={{ textAlign: "end", zIndex: "2" }}>
+    <div style={{ textAlign: "end" }}>
       <button
         className="ui basic blue button"
         onClick={() => {

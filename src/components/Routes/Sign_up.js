@@ -32,7 +32,8 @@ const SignUp = () => {
     event.preventDefault();
     const response = await http.post("/auth/register", fromValues); //send the data to the server
 
-    if (response.data.userId) {
+    if (response.data.user) {
+      localStorage.removeItem("token");
       localStorage.setItem("token", response.data.token);
       history.push("/");
     } else {

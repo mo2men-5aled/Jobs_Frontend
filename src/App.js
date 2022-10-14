@@ -4,7 +4,6 @@ import Home from "./components/Routes/Home";
 import JobUpdate from "./components/UpdateJob";
 import SignUp from "./components/Routes/Sign_up";
 import LogIn from "./components/Routes/Login";
-import LoginOrSignUp from "./components/Signup&Login";
 function App() {
   return (
     <div className="ui container">

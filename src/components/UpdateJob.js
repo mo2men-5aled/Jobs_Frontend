@@ -11,8 +11,6 @@ const JobUpdate = () => {
   const [position, setPosition] = useState("");
   const history = useHistory();
 
-  const [showForm, setShowForm] = useState(false);
-
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
@@ -58,75 +56,60 @@ const JobUpdate = () => {
   return (
     <React.Fragment>
       <div className="ui segment" style={{ marginTop: "20px" }}>
-        <div
-          className="ui top attached label"
-          onClick={() => {
-            setShowForm(!showForm); //false - true
-          }}
-        >
-          {showForm ? (
-            <i className="caret down icon"></i>
-          ) : (
-            <i className="caret right icon"></i>
-          )}
-          <span>Update Job</span>
-        </div>
+        <div className="ui top attached label">Update task</div>
+        <form onSubmit={handleSubmit} className="ui form">
+          <span className="ui transparent fluid input">
+            <label className="ui horizontal label">Company</label>
+            <input
+              onChange={(e) => {
+                setCompany(e.target.value);
+              }}
+              id="name"
+              name="name"
+              type="text"
+              value={company}
+            />
+          </span>
+          <div
+            className="ui transparent fluid input"
+            style={{ margin: "5px 0px 5px " }}
+          >
+            <label className="ui horizontal label">Position</label>
 
-        {showForm && (
-          <form onSubmit={handleSubmit} className="ui form">
-            <span className="ui transparent fluid input">
-              <label className="ui horizontal label">Company</label>
-              <input
-                onChange={(e) => {
-                  setCompany(e.target.value);
-                }}
-                id="name"
-                name="name"
-                type="text"
-                value={company}
-              />
-            </span>
-            <div
-              className="ui transparent fluid input"
-              style={{ margin: "5px 0px 5px " }}
+            <input
+              onChange={(e) => {
+                setPosition(e.target.value);
+              }}
+              id="name"
+              name="name"
+              type="text"
+              value={position}
+            />
+          </div>
+          <div className="field">
+            <select
+              className="ui search dropdown"
+              onChange={(event) => {
+                setstatus(event.target.value);
+              }}
             >
-              <label className="ui horizontal label">Position</label>
-
-              <input
-                onChange={(e) => {
-                  setPosition(e.target.value);
-                }}
-                id="name"
-                name="name"
-                type="text"
-                value={position}
-              />
+              <option value="pending">pending</option>
+              <option value="interview">interview</option>
+              <option value="declined">declined</option>
+            </select>
+          </div>
+          {errors.length > 0 && (
+            <div className="ui red message">
+              {errors.map((error) => {
+                return <div key={error}>{error}</div>;
+              })}
             </div>
-            <div className="field">
-              <select
-                className="ui search dropdown"
-                onChange={(event) => {
-                  setstatus(event.target.value);
-                }}
-              >
-                <option value="pending">pending</option>
-                <option value="interview">interview</option>
-                <option value="declined">declined</option>
-              </select>
-            </div>
-            {errors.length > 0 && (
-              <div className="ui red message">
-                {errors.map((error) => {
-                  return <div key={error}>{error}</div>;
-                })}
-              </div>
-            )}
+          )}
 
-            <button className={`ui red button`} type="submit">
-              Edit
-            </button>
-          </form>
-        )}
+          <button className={`ui red button`} type="submit">
+            Edit
+          </button>
+        </form>
       </div>
     </React.Fragment>
   );

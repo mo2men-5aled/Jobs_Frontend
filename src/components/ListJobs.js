@@ -19,10 +19,8 @@ const ListJob = (props) => {
           if (response.data.jobs) {
             setJobs(response.data.jobs);
           } else if (response.data.msg == "no jobs found") {
-            console.log(response.data.msg);
             setJobs([]);
           }
-          console.log(response);
         });
     }
     setToken(localStorage.getItem("token"));

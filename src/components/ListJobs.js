@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import http from "../api/connection";
 import { Link } from "react-router-dom";
 import DeleteJob from "./DeleteJob";
+import Spinner from "./Loader";
 
 const ListJob = (props) => {
-  const [jobs, setJobs] = useState([]);
-
+  const [jobs, setJobs] = useState();
   const [token, setToken] = useState(
     localStorage.getItem(localStorage.getItem("token"))
   );
@@ -16,7 +16,13 @@ const ListJob = (props) => {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
-          setJobs(response.data.jobs);
+          if (response.data.jobs) {
+            setJobs(response.data.jobs);
+          } else if (response.data.msg == "no jobs found") {
+            console.log(response.data.msg);
+            setJobs([]);
+          }
+          console.log(response);
         });
     }
     setToken(localStorage.getItem("token"));
@@ -24,34 +30,39 @@ const ListJob = (props) => {
   }, [props, token]);
 
   if (jobs) {
-    return (
-      <div style={{ marginTop: "20px" }}>
-        {jobs.map((job) => {
-          return (
-            <div className="ui segment" key={job._id}>
-              <Link to={`/${job._id}`} className="content">
-                <h3>{job.company}</h3>
-              </Link>
-              <div className="header">
-                <h4>{job.position}</h4>
+    if (jobs.length > 0) {
+      return (
+        <div style={{ marginTop: "20px" }}>
+          {jobs.map((job) => {
+            return (
+              <div className="ui segment" key={job._id}>
+                <Link to={`/${job._id}`} className="content">
+                  <h3>{job.company}</h3>
+                </Link>
+                <div className="header">
+                  <h4>{job.position}</h4>
+                </div>
+                <div className="description">{job.status}</div>
+                <DeleteJob JobId={job._id} {...props} />
               </div>
-              <div className="description">{job.status}</div>
-              <DeleteJob JobId={job._id} {...props} />
+            );
+          })}
+        </div>
+      );
+    }
+    if (jobs.length === 0) {
+      return (
+        <div style={{ marginTop: "20px" }}>
+          <div className="ui segment">
+            <div className="header">
+              <span>No Jobs Found</span>
             </div>
-          );
-        })}
-      </div>
-    );
-  } else {
-    return (
-      <div style={{ marginTop: "20px" }}>
-        <div className="ui segment">
-          <div className="header">
-            <span>No Jobs Found</span>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
+  } else {
+    return <Spinner />;
   }
 };
 

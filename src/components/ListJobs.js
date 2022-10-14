@@ -28,7 +28,7 @@ const ListJob = (props) => {
         {jobs.map((job) => {
           return (
             <div className="ui segment" key={job._id}>
-              <Link to={`/jobs/${job._id}`} className="content">
+              <Link to={`/${job._id}`} className="content">
                 <h3>{job.company}</h3>
               </Link>
               <div className="header">

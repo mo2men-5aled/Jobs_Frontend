@@ -5,7 +5,7 @@ import http from "../api/connection";
 const JobUpdate = () => {
   const params = useParams();
 
-  const [job, setJob] = useState({});
+  const [job, setJob] = useState([]);
   const [company, setCompany] = useState("");
   const [status, setstatus] = useState("");
   const [position, setPosition] = useState("");
@@ -41,7 +41,7 @@ const JobUpdate = () => {
       )
       .then((res) => {
         if (res.status === 200) {
-          history.push("/jobs");
+          history.push("/");
         }
       });
   };

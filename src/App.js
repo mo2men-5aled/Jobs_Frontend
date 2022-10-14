@@ -13,7 +13,7 @@ function App() {
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/login" component={LogIn} />
           <Route exact path="/" component={Home} />
-          <Route exact path="/jobs/:id" component={JobUpdate} />
+          <Route exact path="/:id" component={JobUpdate} />
         </Switch>
       </BrowserRouter>
     </div>

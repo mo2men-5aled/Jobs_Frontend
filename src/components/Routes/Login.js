@@ -30,7 +30,6 @@ const LogIn = () => {
       const response = await http.post("/auth/login", formValues);
 
       if (response.data.user) {
-        localStorage.removeItem("token");
         localStorage.setItem("token", response.data.token);
         history.push("/");
       } else {

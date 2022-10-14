@@ -1,40 +1,47 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import http from "../api/connection";
-// import _ from "lodash";
 
-const TaskUpdate = (props) => {
-  const [task, setTask] = useState({});
-  const [name, setName] = useState("");
+const JobUpdate = () => {
+  const params = useParams();
+
+  const [job, setJob] = useState({});
+  const [company, setCompany] = useState("");
   const [status, setstatus] = useState("");
-  const [description, setDescription] = useState("");
+  const [position, setPosition] = useState("");
   const history = useHistory();
 
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     //on page load
-    http.get(`/${props.parentID}`).then((response) => {
-      setTask(response.data.task);
-      setName(response.data.task.name);
-      setDescription(response.data.task.description);
-      setstatus(response.data.task.completed);
-    });
-  }, [props.parentID]);
+    http
+      .get(`/jobs/${params.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        setJob(response.data.job);
+        setCompany(response.data.job.company);
+        setPosition(response.data.job.position);
+        setstatus(response.data.job.status);
+      });
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     http
-      .patch(`/${props.parentID}`, {
-        ...task,
-        name: name,
-        description: description,
-        completed: status,
-      })
+      .patch(
+        `/jobs/${params.id}`,
+        { ...job, company: company, position: position, status: status },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      )
       .then((res) => {
         if (res.status === 200) {
-          history.goBack();
-          props.setTriggerCreate(true);
+          history.push("/jobs");
         }
       });
   };
@@ -53,52 +60,50 @@ const TaskUpdate = (props) => {
           ) : (
             <i className="caret right icon"></i>
           )}
-          <span>Update Task</span>
+          <span>Update Job</span>
         </div>
 
         {showForm && (
           <form onSubmit={handleSubmit} className="ui form">
             <span className="ui transparent fluid input">
-              <label className="ui horizontal label">Name</label>
+              <label className="ui horizontal label">Company</label>
               <input
                 onChange={(e) => {
-                  setName(e.target.value);
+                  setCompany(e.target.value);
                 }}
                 id="name"
                 name="name"
                 type="text"
-                value={name}
+                value={company}
               />
             </span>
             <div
               className="ui transparent fluid input"
               style={{ margin: "5px 0px 5px " }}
             >
-              <label className="ui horizontal label">Descriptions</label>
+              <label className="ui horizontal label">Position</label>
 
               <input
                 onChange={(e) => {
-                  setDescription(e.target.value);
+                  setPosition(e.target.value);
                 }}
                 id="name"
                 name="name"
                 type="text"
-                value={description}
+                value={position}
               />
             </div>
-            <div className="inline field">
-              <div className="ui checked checkbox">
-                <input
-                  onChange={(e) => {
-                    setstatus(e.target.checked);
-                  }}
-                  id="status"
-                  name="status"
-                  type="checkbox"
-                  checked={`${status ? "checked" : ""}`}
-                ></input>
-                <label>Completed</label>
-              </div>
+            <div className="field">
+              <select
+                className="ui search dropdown"
+                onChange={(event) => {
+                  setstatus(event.target.value);
+                }}
+              >
+                <option value="pending">pending</option>
+                <option value="interview">interview</option>
+                <option value="declined">declined</option>
+              </select>
             </div>
 
             <button className={`ui red button`} type="submit">
@@ -111,4 +116,4 @@ const TaskUpdate = (props) => {
   );
 };
 
-export default TaskUpdate;
+export default JobUpdate;

@@ -28,7 +28,7 @@ const LogIn = () => {
       localStorage.removeItem("token");
       localStorage.setItem("token", response.data.token);
       console.log(response.data.token);
-      history.push("/jobs");
+      history.push("/");
     } else {
       setErrors(response.data.msg);
     }

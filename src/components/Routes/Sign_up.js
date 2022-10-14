@@ -34,7 +34,7 @@ const SignUp = () => {
 
     if (response.data.userId) {
       localStorage.setItem("token", response.data.token);
-      history.push("/jobs");
+      history.push("/");
     } else {
       setErrors(response.data.msg);
     }

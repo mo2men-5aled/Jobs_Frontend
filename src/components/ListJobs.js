@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import http from "../api/connection";
 import { Link } from "react-router-dom";
 import DeleteTask from "./DeleteTask";
@@ -20,7 +20,7 @@ const ListJob = (props) => {
           setJobs(response.data.jobs);
         });
     if (props.setTriggerCreate !== false) props.setTriggerCreate(false);
-  }, [props.TriggerCreate]);
+  }, [props.TriggerCreate, props]);
 
   if (jobs.length > 0) {
     return (
@@ -28,12 +28,13 @@ const ListJob = (props) => {
         {jobs.map((job) => {
           return (
             <div className="ui segment" key={job._id}>
-              <Link to={`/${job._id}`} className="content">
-                <span>{job.company}</span>
-                <div className="header">
-                  <span>{job.position}</span>
-                </div>
+              <Link to={`/jobs/${job._id}`} className="content">
+                <h3>{job.company}</h3>
               </Link>
+              <div className="header">
+                <h4>{job.position}</h4>
+              </div>
+              <div className="description">{job.status}</div>
               <DeleteTask JobId={job._id} {...props} />
             </div>
           );

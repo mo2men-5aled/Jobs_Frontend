@@ -10,33 +10,32 @@ const NewTask = (data, props) => {
 };
 
 const AddJob = (props) => {
-  const [Name, setName] = useState("");
-  const [description, setDesc] = useState("");
-  const [status, setStatus] = useState(false);
+  const [Company, setCompany] = useState("");
+  const [position, setPosition] = useState("");
+  const [status, setStatus] = useState("pending");
 
   const [showForm, setShowForm] = useState(false);
   const [showButton, setShowButton] = useState(true);
 
   //object sent to the database
   const fromValues = {
-    name: Name,
-    completed: status,
-    description: description,
-    createdBy: props.userID,
+    company: Company,
+    position: position,
+    status: status,
   };
 
   //on form submit
   const handleSubmit = (event) => {
     event.preventDefault();
     NewTask(fromValues, props);
-    setName("");
-    setStatus(false);
-    setDesc("");
+    setCompany("");
+    setPosition("");
   };
 
-  const isValed = Name === "";
+  const isValed = Company === "";
   const [touched, setTouched] = useState(false);
 
+  console.log(status);
   return (
     <div>
       {showButton && (
@@ -66,12 +65,12 @@ const AddJob = (props) => {
             <form className="ui form" onSubmit={handleSubmit}>
               <div className="field">
                 <input
-                  placeholder="Type Task Name"
+                  placeholder="Company Name"
                   id="name"
                   name="name"
                   type="text"
-                  value={Name}
-                  onChange={(event) => setName(event.target.value)}
+                  value={Company}
+                  onChange={(event) => setCompany(event.target.value)}
                   onBlur={() => {
                     if (isValed) {
                     } else {
@@ -82,27 +81,25 @@ const AddJob = (props) => {
               </div>
               <div className="field">
                 <input
-                  placeholder="Type Task description"
+                  placeholder="What was your position there ?"
                   id="name"
                   name="name"
                   type="text"
-                  value={description}
-                  onChange={(event) => setDesc(event.target.value)}
+                  value={position}
+                  onChange={(event) => setPosition(event.target.value)}
                 />
               </div>
-              <div className="inline field">
-                <input
-                  className="ui checked checkbox"
-                  id="status"
-                  name="status"
-                  type="checkbox"
-                  checked={status ? "checked" : ""}
-                  value={status}
+              <div className="field">
+                <select
+                  class="ui search dropdown"
                   onChange={(event) => {
-                    setStatus(event.target.checked);
+                    setStatus(event.target.value);
                   }}
-                />
-                <label>Completed</label>
+                >
+                  <option value="pending">pending</option>
+                  <option value="interview">interview</option>
+                  <option value="declined">declined</option>
+                </select>
               </div>
 
               <button

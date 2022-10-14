@@ -2,11 +2,17 @@ import React, { useState } from "react";
 import http from "../api/connection";
 
 const NewTask = (data, props) => {
-  http.post("/jobs", data).then((res) => {
-    if (res.status === 201) {
-      props.setTriggerCreate(true);
-    }
-  });
+  http
+    .post("/jobs", data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {
+      if (res.status === 201) {
+        props.setTriggerCreate(true);
+      }
+    });
 };
 
 const AddJob = (props) => {
@@ -30,12 +36,12 @@ const AddJob = (props) => {
     NewTask(fromValues, props);
     setCompany("");
     setPosition("");
+    setStatus("pending");
   };
 
   const isValed = Company === "";
   const [touched, setTouched] = useState(false);
 
-  console.log(status);
   return (
     <div>
       {showButton && (

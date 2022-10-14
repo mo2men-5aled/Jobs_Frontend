@@ -22,7 +22,7 @@ const ListJob = (props) => {
     if (props.setTriggerCreate !== false) props.setTriggerCreate(false);
   }, [props.TriggerCreate]);
 
-  if (jobs > 0) {
+  if (jobs.length > 0) {
     return (
       <div style={{ marginTop: "20px" }}>
         {jobs.map((job) => {

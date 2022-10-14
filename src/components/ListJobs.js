@@ -3,26 +3,27 @@ import http from "../api/connection";
 import { Link } from "react-router-dom";
 import DeleteJob from "./DeleteJob";
 
-const token = localStorage.getItem("token");
-
 const ListJob = (props) => {
   const [jobs, setJobs] = useState([]);
 
+  const [token, setToken] = useState(
+    localStorage.getItem(localStorage.getItem("token"))
+  );
   useEffect(() => {
-    if (!props.TriggerCreate)
+    if (!props.TriggerCreate) {
       http
         .get("/jobs", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
           setJobs(response.data.jobs);
         });
+    }
+    setToken(localStorage.getItem("token"));
     if (props.setTriggerCreate !== false) props.setTriggerCreate(false);
-  }, [props.TriggerCreate, props]);
+  }, [props, token]);
 
-  if (!jobs.length === 0) {
+  if (jobs) {
     return (
       <div style={{ marginTop: "20px" }}>
         {jobs.map((job) => {

@@ -1,3 +1,4 @@
+import { set } from "lodash";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import http from "../api/connection";
@@ -13,6 +14,8 @@ const JobUpdate = () => {
 
   const [showForm, setShowForm] = useState(false);
 
+  const [errors, setErrors] = useState("");
+
   useEffect(() => {
     //on page load
     http
@@ -22,13 +25,18 @@ const JobUpdate = () => {
         },
       })
       .then((response) => {
-        setJob(response.data.job);
-        setCompany(response.data.job.company);
-        setPosition(response.data.job.position);
-        setstatus(response.data.job.status);
+        if (response.data.msg) {
+          setErrors(response.data.msg);
+        } else {
+          setJob(response.data.job);
+          setCompany(response.data.job.company);
+          setPosition(response.data.job.position);
+          setstatus(response.data.job.status);
+        }
       });
   }, []);
 
+  console.log(errors);
   const handleSubmit = (event) => {
     event.preventDefault();
     http

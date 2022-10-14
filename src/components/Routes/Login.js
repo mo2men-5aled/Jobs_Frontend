@@ -18,12 +18,15 @@ const LogIn = () => {
     email: email,
     password: password,
   };
+
   //On Submit the form
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await http.post("/auth/login", formValues);
+
     if (response.data.userId) {
-      history.push(`/${response.data.userId}`);
+      localStorage.setItem("token", response.data.token);
+      history.push("/jobs");
     } else {
       setErrors(response.data.msg);
     }

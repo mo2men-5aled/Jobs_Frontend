@@ -97,7 +97,7 @@ const AddJob = (props) => {
               </div>
               <div className="field">
                 <select
-                  class="ui search dropdown"
+                  className="ui search dropdown"
                   onChange={(event) => {
                     setStatus(event.target.value);
                   }}

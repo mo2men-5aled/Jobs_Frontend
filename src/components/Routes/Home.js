@@ -4,8 +4,6 @@ import AddJob from "../AddJob";
 import ListJob from "../ListJobs";
 
 import { useParams } from "react-router-dom";
-import CheckUserID from "../checkUserID";
-import LoginOrSignUp from "../Signup&Login";
 
 const Home = () => {
   const params = useParams();

@@ -56,7 +56,7 @@ const AddJob = (props) => {
               setShowButton(!showButton); //true - false
             }}
           >
-            Create Task
+            Create Job
           </button>
         )}
         {showForm && (
@@ -69,7 +69,7 @@ const AddJob = (props) => {
                   setShowButton(!showButton); //true - false
                 }}
               >
-                Create New Task
+                Create New Job
               </div>
               <form className="ui form" onSubmit={handleSubmit}>
                 <div className="field">

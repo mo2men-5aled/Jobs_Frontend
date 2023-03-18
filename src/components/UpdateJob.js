@@ -60,7 +60,7 @@ const JobUpdate = () => {
     return (
       <React.Fragment>
         <div className="ui segment" style={{ marginTop: "20px" }}>
-          <div className="ui top attached label">Update task</div>
+          <div className="ui top attached label">Update Job</div>
           <form onSubmit={handleSubmit} className="ui form">
             <span className="ui transparent fluid input">
               <label className="ui horizontal label">Company</label>

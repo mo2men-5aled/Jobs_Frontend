@@ -5,10 +5,11 @@ import DeleteJob from "./DeleteJob";
 import Spinner from "./Loader";
 
 const ListJob = (props) => {
-  const [jobs, setJobs] = useState();
-  const [token, setToken] = useState(
-    localStorage.getItem(localStorage.getItem("token"))
-  );
+  const [jobs, setJobs] = useState([]);
+  const [token, setToken] = useState();
+
+  localStorage.getItem(localStorage.getItem("token"));
+
   useEffect(() => {
     if (!props.TriggerCreate) {
       http
@@ -18,8 +19,6 @@ const ListJob = (props) => {
         .then((response) => {
           if (response.data.jobs) {
             setJobs(response.data.jobs);
-          } else if (response.data.msg == "no jobs found") {
-            setJobs([]);
           }
         });
     }

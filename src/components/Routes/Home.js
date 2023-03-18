@@ -8,7 +8,7 @@ const Home = () => {
   const token = localStorage.getItem("token");
   const [TriggerCreate, setTriggerCreate] = useState(false); // flag of shoing form
   if (token) {
-    //var result = CheckUserID(userID).found;
+    // var result = CheckUserID(userID).found;
     return (
       <React.Fragment>
         <AddJob setTriggerCreate={setTriggerCreate} />
